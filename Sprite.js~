@@ -1,0 +1,55 @@
+function sprite (options) {
+
+    var that = {},
+        frameIndex = 0,
+        tickCount = 0,
+        ticksPerFrame = options.ticksPerFrame || 0;
+        numberOfFrames = options.numberOfFrames || 1;
+        		
+    that.context = options.context;
+    that.width = options.width;
+    that.height = options.height;
+    that.image = options.image;
+    that.theStrip = 0;
+	that.xPos = 0;
+	that.yPos = 0;
+
+    that.render = function () {
+        // Clear the canvas
+        that.context.clearRect(that.xPos, that.yPos, that.width, that.height);
+        console.log(numberOfFrames);
+        // Draw the animation
+        that.context.drawImage(
+           that.image,
+           frameIndex * that.width / numberOfFrames,
+           32 * that.theStrip,
+           that.width / numberOfFrames,
+           that.height,
+           that.xPos,
+           that.yPos,
+           that.width / numberOfFrames,
+           that.height);
+    };
+    
+
+    that.update = function () {
+        
+        tickCount += 1;
+        // If the current frame index is in range
+        if (frameIndex < numberOfFrames - 1) {  
+             // Go to the next frame
+            frameIndex += 1;
+          } else {
+                frameIndex = 0;
+          }
+    }; 
+	
+	
+	that.updatePositionImage = function(x, y, id){
+		that.theStrip = id;
+		that.xPos = x;
+		that.yPos = y;
+	}
+
+    return that;
+}
